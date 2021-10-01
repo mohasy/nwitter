@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { dbService, storageService } from "fbase";
 import { addDoc, query, collection, onSnapshot, orderBy } from "@firebase/firestore";
 import Nweet from "components/Nweet";
-import { ref, uploadString } from "firebase/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 
 const Home =  ({userObj}) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
-    const [atttachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState("");
 
     // const getNweets = async() =>{
     //     const q = query(collection(dbService,"nweets"));
@@ -37,15 +37,29 @@ const Home =  ({userObj}) => {
 
     const onSubmit = async(e) => {
         e.preventDefault();
-        const fileRef = ref(storageService, `${userObj.uid}/${v4()}`);
-        const response = await uploadString(fileRef, atttachment, "data_url");
-        console.log(response);
-        // await addDoc(collection(dbService, "nweets"),{
-        //     text: nweet,
-        //     createdAt: Date.now(),
-        //     creatorId: userObj.uid
-        // });
-        // setNweet("");
+        let attachmentUrl = "";
+        //업로드한 파일이 있어야 실행
+        if (attachment !== "") {
+            //파일 경로 참조 만들기
+            const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
+            //storage 참조 경로로 파일 업로드 하기
+            const response = await uploadString(attachmentRef, attachment, "data_url");
+            // console.log(response);
+            //storage에 있는 파일 URL로 다운로드 받기
+            attachmentUrl = await getDownloadURL(response.ref);
+            // console.log(attachmentUrl);
+        }
+
+        const nweetObj = {
+            text: nweet,
+            createdAt: Date.now(),
+            creatorId: userObj.uid,
+            attachmentUrl,
+        }
+
+        await addDoc(collection(dbService, "nweets"), nweetObj);
+        setNweet("");
+        setAttachment("");
     };
 
     const onChange = (event) => {
@@ -84,9 +98,9 @@ const Home =  ({userObj}) => {
                 <input type="file" accept="image/*" onChange={onFileChange} />
                 <input type="submit"
                 value="Nweet" />
-                {atttachment && 
+                {attachment && 
                     <div>
-                        <img src={atttachment} width="50px" height="50px" />
+                        <img src={attachment} width="50px" height="50px" />
                         <button onClick={onClearAttachment}>삭제</button>
                     </div>
                 }
