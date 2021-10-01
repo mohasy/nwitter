@@ -51,6 +51,5 @@ const Nweet = ({nweetObj, isOwner}) => {
                 </>
             )}
         </div>
-    )
-                    };   
+    )};   
     export default Nweet;

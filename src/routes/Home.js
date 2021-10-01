@@ -6,6 +6,7 @@ import Nweet from "components/Nweet";
 const Home =  ({userObj}) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
+    const [atttachment, setAttachment] = useState();
 
     // const getNweets = async() =>{
     //     const q = query(collection(dbService,"nweets"));
@@ -47,13 +48,43 @@ const Home =  ({userObj}) => {
         setNweet(value);
     };
     // console.log(nweets);
+
+    const onFileChange = (event) => {
+        // console.log(event.target.files);
+        const {
+            target: {files}
+        } = event;
+        //한개의 파일만 받음
+        const theFile = files[0];
+        // console.log(theFile);
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            // console.log(finishedEvent);
+            const {
+                currentTarget: {result}
+            } = finishedEvent;
+            setAttachment(result);
+        };
+        reader.readAsDataURL(theFile);
+    }
+
+    //파일 지우기
+    const onClearAttachment = () => setAttachment(null);
+
     return (
         <div>
             <form onSubmit={onSubmit}>
                 <input value={nweet} type="text" on
                 onChange={onChange} placeholder="What's on your mind?" maxLength={120} />
+                <input type="file" accept="image/*" onChange={onFileChange} />
                 <input type="submit"
                 value="Nweet" />
+                {atttachment && 
+                    <div>
+                        <img src={atttachment} width="50px" height="50px" />
+                        <button onClick={onClearAttachment}>삭제</button>
+                    </div>
+                }
             </form>
             <div>
                 {nweets.map((nweet) => (
