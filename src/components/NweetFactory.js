@@ -5,6 +5,7 @@ import { v4 } from "uuid";
 import { addDoc, collection } from "@firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import moment from 'moment'; 
 
 const NweetFactory = ({userObj}) => {
     const [nweet, setNweet] = useState("");
