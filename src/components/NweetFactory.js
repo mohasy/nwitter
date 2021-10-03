@@ -3,12 +3,18 @@ import React, { useState } from "react";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import { addDoc, collection } from "@firebase/firestore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const NweetFactory = ({userObj}) => {
     const [nweet, setNweet] = useState("");
     const [attachment, setAttachment] = useState("");
 
     const onSubmit = async(e) => {
+        if (nweet === "") {
+            return;
+          }
+
         e.preventDefault();
         let attachmentUrl = "";
         //업로드한 파일이 있어야 실행
@@ -61,22 +67,46 @@ const NweetFactory = ({userObj}) => {
     }
 
     //파일 지우기
-    const onClearAttachment = () => setAttachment(null);
+    const onClearAttachment = () => setAttachment("");
     return (
-        <form onSubmit={onSubmit}>
-        <input value={nweet} type="text" on
-        onChange={onChange} placeholder="What's on your mind?" maxLength={120} />
-        <input type="file" accept="image/*" onChange={onFileChange} />
-        <input type="submit"
-        value="Nweet" />
+        <form onSubmit={onSubmit} className="factoryForm">
+            <div className="factoryInput__container">
+                <input
+                className="factoryInput__input"
+                value={nweet}
+                onChange={onChange}
+                type="text"
+                placeholder="What's on your mind?"
+                maxLength={120}
+                />
+                <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+            </div>
+            <label for="attach-file" className="factoryInput__label">
+                <span>Add photos</span>
+                <FontAwesomeIcon icon={faPlus} />
+            </label>
+        <input id="attach-file"
+        type="file"
+        accept="image/*"
+        onChange={onFileChange}
+        style={{
+          opacity: 0,
+        }} />
         {attachment && 
-            <div>
-                <img src={attachment} width="50px" height="50px" />
-                <button onClick={onClearAttachment}>삭제</button>
+             <div className="factoryForm__attachment">
+             <img
+               src={attachment}
+               style={{
+                 backgroundImage: attachment,
+               }}
+             />
+             <div className="factoryForm__clear" onClick={onClearAttachment}>
+               <span>Remove</span>
+               <FontAwesomeIcon icon={faTimes} />
+             </div>
             </div>
         }
     </form>
-    )
-}
+    )}
 
 export default NweetFactory;
