@@ -1,7 +1,7 @@
 import { authService, dbService } from "fbase";
 import React,{useEffect, useState} from "react";
 import { useHistory } from "react-router";
-import { collection, getDocs, query, where } from "@firebase/firestore";
+import { collection, query, where } from "@firebase/firestore";
 import { updateProfile } from "@firebase/auth";
 
 export default ( {refreshUser, userObj} ) => {
