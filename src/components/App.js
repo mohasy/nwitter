@@ -19,7 +19,6 @@ function App() {
         //   uid: user.uid,
         //   updateProfile: (args) => user.updateProfile(args),
         // });
-        setUserObj(user);
       } else {
         setIsLoggedIn(false);
       }

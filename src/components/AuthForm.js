@@ -40,6 +40,7 @@ const AuthForm = () => {
         }
     };
     const toggleAccount = () => setNewAccount((prev) => !prev);
+
     
     return (
         <>

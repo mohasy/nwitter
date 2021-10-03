@@ -21,19 +21,12 @@ export default ( {refreshUser, userObj} ) => {
     };
     const onSubmit = async(event) => {
         event.preventDefault();
-        if (userObj) {
-            if (userObj.displayName === null) {
-                await userObj.updateProfile({
-                    displayName: "User",
-                });
-            }
-        }
 
         if(userObj.displayName !== newDisplayName){
             await updateProfile(await authService.currentUser, {
                 displayName: newDisplayName,
                 });
-        }
+        } 
         
         refreshUser();
             
