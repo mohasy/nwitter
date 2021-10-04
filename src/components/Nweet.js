@@ -1,10 +1,12 @@
 import { doc, deleteDoc, updateDoc } from "@firebase/firestore";
 import { dbService, storageService } from "fbase";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ref, deleteObject } from "firebase/storage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faCommentDots, faGhost } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "./Modal";
+import Comment from "components/Comment";
+import { query, collection, onSnapshot, orderBy } from "@firebase/firestore";
 
 // 시간 기능 추가 
 function formatDate(curDate) {
@@ -33,7 +35,7 @@ function formatDate(curDate) {
 	return resultDate;
 };
 
-const Nweet = ({nweetObj, isOwner}) => {
+const Nweet = ({nweetObj, isOwner,userObj }) => {
     const [editing, setEditing] = useState(false);
     const [newNweet, setNewNweet] = useState(nweetObj.text);
     const [showModal, setShowModal] = useState(false);
@@ -61,13 +63,14 @@ const Nweet = ({nweetObj, isOwner}) => {
         } = event;
         setNewNweet(value);
     };
-
+    
     const openModal = () => {
         setShowModal(true);
         // console.log("click");
     }
 
     return (
+        <>
         <div className="nweet">
             {editing ? (
                 <>
@@ -82,26 +85,38 @@ const Nweet = ({nweetObj, isOwner}) => {
             ):(
                     <>
                     {showModal ? <div className="modal"><Modal setShowModal={setShowModal} /><img src={nweetObj.attachmentUrl} onClick={() => setShowModal(false)} /></div> : null}
-                    
-                    <h className="userName">@ {nweetObj.userName} <span className="nweetTime">{formatDate(nweetObj.createdAt)}</span></h>
+
+                    <h className="userName"> {isOwner ? (
+                            <span className="icon">
+                            <FontAwesomeIcon icon={faGhost} color={"#df9dc6"} />
+                            </span>
+                    ):<span className="icon">
+                    <FontAwesomeIcon icon={faGhost} color={"#777"} />
+                    </span>} {nweetObj.userName} <span className="nweetTime">&#8729; {formatDate(nweetObj.createdAt)}</span></h>
                         <h4>{nweetObj.text}</h4>
                         {nweetObj.attachmentUrl && 
                         <div>
                             <img src={nweetObj.attachmentUrl} onClick={openModal} className="attachment" />
-                            
                         </div>}
-                    {isOwner && (
                         <div className="nweet__actions">
-                            <span onClick={onDeleteClick}>
-                                <FontAwesomeIcon icon={faTrash} />
-                            </span>
-                            <span onClick={toggleEditing}>
-                                <FontAwesomeIcon icon={faPencilAlt} />
-                            </span>
-                        </div>
-                    )}
-                    </>
+                            {isOwner && (
+                                <>
+                                    <span onClick={onDeleteClick}>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </span>
+                                    <span onClick={toggleEditing}>
+                                        <FontAwesomeIcon icon={faPencilAlt} />
+                                    </span>
+                                    </>
+                            )}
+                        <span>
+                            <FontAwesomeIcon icon= {faCommentDots} />
+                        </span>
+                    </div>
+                </>
             )}
         </div>
+
+        </>
     )};   
     export default Nweet;

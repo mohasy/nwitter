@@ -5,7 +5,6 @@ import { v4 } from "uuid";
 import { addDoc, collection } from "@firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
-import moment from 'moment'; 
 
 const NweetFactory = ({userObj}) => {
     const [nweet, setNweet] = useState("");
@@ -38,10 +37,7 @@ const NweetFactory = ({userObj}) => {
             userName: userObj.displayName
         }
     
-        if(nweetObj.userName == null) {
-            nweetObj.userName= "User";
-            console.log("name null");
-        }
+        if(nweetObj.userName == null)  nweetObj.userName= "User";
         
         await addDoc(collection(dbService, "nweets"), nweetObj);
         setNweet("");

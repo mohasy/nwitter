@@ -15,22 +15,30 @@ const Auth =  () => {
 
         let provider;
 
-        try{
-            if (name === "google"){
-                provider = new GoogleAuthProvider();
-                const result = await signInWithPopup(authService, provider);
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-            } 
-            else if (name === "github"){
-                provider = new GithubAuthProvider();
-                const result = await signInWithPopup(authService, provider);
-                const credential = GithubAuthProvider.credentialFromResult(result);
-            }
-            await authService.signInWithPopup(provider);
-
-        }catch(error){
-            console.log(error);
+        if(name == "google") {
+            console.log("google");
+            provider = new GoogleAuthProvider();
+        } else if (name === "github") {
+            provider = new GithubAuthProvider();
         }
+
+        await signInWithPopup(authService, provider);
+        // try{
+        //     if (name === "google"){
+        //         provider = new GoogleAuthProvider();
+        //         const result = await signInWithPopup(authService, provider);
+        //         const credential = GoogleAuthProvider.credentialFromResult(result);
+        //     } 
+        //     else if (name === "github"){
+        //         provider = new GithubAuthProvider();
+        //         const result = await signInWithPopup(authService, provider);
+        //         const credential = GithubAuthProvider.credentialFromResult(result);
+        //     }
+        //     await authService.signInWithPopup(provider);
+
+        // }catch(error){
+        //     console.log(error);
+        // }
     };
 
     return (
