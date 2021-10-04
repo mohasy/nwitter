@@ -38,8 +38,11 @@ const NweetFactory = ({userObj}) => {
             userName: userObj.displayName
         }
     
-        if(nweetObj.userName == null) nweetObj.userName= "User";
-
+        if(nweetObj.userName == null) {
+            nweetObj.userName= "User";
+            console.log("name null");
+        }
+        
         await addDoc(collection(dbService, "nweets"), nweetObj);
         setNweet("");
         setAttachment("");

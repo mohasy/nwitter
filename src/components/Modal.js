@@ -11,6 +11,7 @@ export const Modal = ({ setShowModal }) => {
   };
   
   return ReactDom.createPortal(
+      
     <div className="container" ref={modalRef} onClick={closeModal}>
       <div className="modal">
         <button onClick={() => setShowModal(false)} className="Xbutton">X</button>

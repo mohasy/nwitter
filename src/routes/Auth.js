@@ -26,12 +26,12 @@ const Auth =  () => {
                 const result = await signInWithPopup(authService, provider);
                 const credential = GithubAuthProvider.credentialFromResult(result);
             }
-            // await authService.signInWithPopup(provider);
+            await authService.signInWithPopup(provider);
 
         }catch(error){
             console.log(error);
         }
-    }
+    };
 
     return (
         <div className="authContainer">

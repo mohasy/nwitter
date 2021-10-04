@@ -81,12 +81,14 @@ const Nweet = ({nweetObj, isOwner}) => {
                 </>
             ):(
                     <>
+                    {showModal ? <div className="modal"><Modal setShowModal={setShowModal} /><img src={nweetObj.attachmentUrl} onClick={() => setShowModal(false)} /></div> : null}
+                    
                     <h className="userName">@ {nweetObj.userName} <span className="nweetTime">{formatDate(nweetObj.createdAt)}</span></h>
                         <h4>{nweetObj.text}</h4>
                         {nweetObj.attachmentUrl && 
                         <div>
                             <img src={nweetObj.attachmentUrl} onClick={openModal} className="attachment" />
-                            {showModal ? <div className="modal"><Modal setShowModal={setShowModal} /><img src={nweetObj.attachmentUrl} onClick={() => setShowModal(false)} /></div> : null}
+                            
                         </div>}
                     {isOwner && (
                         <div className="nweet__actions">
