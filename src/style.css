@@ -1,4 +1,5 @@
 @import "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 * {
   box-sizing: border-box;
@@ -293,12 +294,12 @@ form {
 .userName {
   color: #555;
   margin-bottom: 15px;
-  font-size: 13px;
+  font-size: bold 15px;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
 .icon {
   margin-right: 6px;
-  font-size: 15px;
 }
 
 #portal .modal{
@@ -358,3 +359,23 @@ form {
   }
 }
 
+.upBtn {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  bottom: 50px;
+  right: 50px;
+  cursor: pointer;
+  transition: transform 2s;
+}
+
+.upBtn:hover {
+  background-color: #da89bc;
+}
+
+.upBtn .arrows {
+  font-size: 18px;
+  position: relative;
+  /* top: -6px; */
+  text-decoration: none;
+}

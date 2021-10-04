@@ -71,6 +71,7 @@ const NweetFactory = ({userObj}) => {
 
     //파일 지우기
     const onClearAttachment = () => setAttachment("");
+    
     return (
         <form onSubmit={onSubmit} className="factoryForm">
             <div className="factoryInput__container">

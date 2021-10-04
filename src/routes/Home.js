@@ -3,6 +3,8 @@ import { dbService } from "fbase";
 import { query, collection, onSnapshot, orderBy } from "@firebase/firestore";
 import Nweet from "components/Nweet";
 import NweetFactory from "components/NweetFactory";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
 
 const Home =  ({userObj}) => {
     const [nweets, setNweets] = useState([]);
@@ -32,6 +34,8 @@ const Home =  ({userObj}) => {
         });
     }, []);
 
+    const moveToTop = () => (document.documentElement.scrollTop = 0);
+
     return (
         <div className="container">
             <NweetFactory userObj={userObj} />
@@ -40,6 +44,7 @@ const Home =  ({userObj}) => {
                     <Nweet key={nweet.id} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid} />
                     ))}
             </div>
+            <div className="factoryInput__arrow upBtn" onClick={moveToTop}><span className="arrows"><FontAwesomeIcon icon={faLongArrowAltUp} /></span></div>
         </div>
     );
 };
